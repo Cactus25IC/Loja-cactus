@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Projeto Cactus - Carrinho</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+    th, td {
+      padding: 8px;
+      border: 1px solid #ddd;
+      text-align: left;
+      vertical-align: top;
+    }
+    th {
+      background: #e0e0e0;
+    }
+    input[type="number"] {
+      width: 50px;
+    }
+    select {
+      margin-top: 5px;
+      width: 100%;
+    }
+    .total {
+      font-weight: bold;
+      font-size: 1.2em;
+      text-align: right;
+    }
+    .finalizar {
+      display: block;
+      width: 100%;
+      background: #4CAF50;
+      color: #fff;
+      padding: 12px;
+      text-align: center;
+      text-decoration: none;
+      border-radius: 4px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>Projeto Cactus - Carrinho</h1>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Produto</th>
+        <th>Preço (R$)</th>
+        <th>Quantidade e Opções</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Camisa Cinza -->
+      <tr>
+        <td>Camisa Cinza</td>
+        <td>40</td>
+        <td>
+          <input type="number" min="0" value="0" data-price="40" />
+          <br/>
+          <label>Tamanho:</label>
+          <select class="size">
+            <option value="">--</option>
+            <option value="P">P</option>
+            <option value="M">M</option>
+            <option value="G">G</option>
+            <option value="GG">GG</option>
+            <option value="XG">XG</option>
+            <option value="XGG">XGG</option>
+          </select>
+          <br/>
+          <label>Gênero:</label>
+          <select class="gender">
+            <option value="">--</option>
+            <option value="Masculino">Masculino</option>
+            <option value="Feminino">Feminino</option>
+          </select>
+        </td>
+      </tr>
+
+      <!-- Camisa Bege -->
+      <tr>
+        <td>Camisa Bege</td>
+        <td>35</td>
+        <td>
+          <input type="number" min="0" value="0" data-price="35" />
+          <br/>
+          <label>Tamanho:</label>
+          <select class="size">
+            <option value="">--</option>
+            <option value="P">P</option>
+            <option value="M">M</option>
+            <option value="G">G</option>
+            <option value="GG">GG</option>
+            <option value="XG">XG</option>
+            <option value="XGG">XGG</option>
+          </select>
+          <br/>
+          <label>Gênero:</label>
+          <select class="gender">
+            <option value="">--</option>
+            <option value="Masculino">Masculino</option>
+            <option value="Feminino">Feminino</option>
+          </select>
+        </td>
+      </tr>
+
+      <!-- Camisa UV -->
+      <tr>
+        <td>Camisa UV</td>
+        <td>30</td>
+        <td>
+          <input type="number" min="0" value="0" data-price="30" />
+          <br/>
+          <label>Tamanho:</label>
+          <select class="size">
+            <option value="">--</option>
+            <option value="P">P</option>
+            <option value="M">M</option>
+            <option value="G">G</option>
+            <option value="GG">GG</option>
+            <option value="XG">XG</option>
+            <option value="XGG">XGG</option>
+          </select>
+          <br/>
+          <label>Gênero:</label>
+          <select class="gender">
+            <option value="">--</option>
+            <option value="Masculino">Masculino</option>
+            <option value="Feminino">Feminino</option>
+          </select>
+        </td>
+      </tr>
+
+      <!-- Boné -->
+      <tr>
+        <td>Boné</td>
+        <td>45</td>
+        <td>
+          <input type="number" min="0" value="0" data-price="45" />
+        </td>
+      </tr>
+
+      <!-- Kit Camisa UV + Boné -->
+      <tr>
+        <td>Kit Camisa UV + Boné</td>
+        <td>60</td>
+        <td>
+          <input type="number" min="0" value="0" data-price="60" />
+          <br/>
+          <label>Tamanho Camisa:</label>
+          <select class="size">
+            <option value="">--</option>
+            <option value="P">P</option>
+            <option value="M">M</option>
+            <option value="G">G</option>
+            <option value="GG">GG</option>
+            <option value="XG">XG</option>
+            <option value="XGG">XGG</option>
+          </select>
+          <br/>
+          <label>Gênero Camisa:</label>
+          <select class="gender">
+            <option value="">--</option>
+            <option value="Masculino">Masculino</option>
+            <option value="Feminino">Feminino</option>
+          </select>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="total">Total: R$ <span id="total">0.00</span></div>
+  <br/>
+  <a href="#" id="finalizarPedido" class="finalizar" target="_blank">Finalizar Pedido</a>
+
+  <script>
+    const inputs = document.querySelectorAll('input[type="number"]');
+    const totalSpan = document.getElementById('total');
+    const finalizarBtn = document.getElementById('finalizarPedido');
+
+    function updateTotal() {
+      let total = 0;
+      inputs.forEach(input => {
+        const qty = parseInt(input.value) || 0;
+        const price = parseFloat(input.dataset.price);
+        total += qty * price;
+      });
+      totalSpan.textContent = total.toFixed(2);
+    }
+
+    function generateWhatsAppLink() {
+      let message = "Olá! Quero fazer um pedido:%0A";
+      let hasItems = false;
+
+      inputs.forEach(input => {
+        const qty = parseInt(input.value) || 0;
+        const row = input.closest('tr');
+        const productName = row.querySelector('td').textContent;
+
+        // Pega tamanho
+        const sizeSelect = row.querySelector('.size');
+        const size = sizeSelect ? sizeSelect.value : '';
+
+        // Pega gênero
+        const genderSelect = row.querySelector('.gender');
+        const gender = genderSelect ? genderSelect.value : '';
+
+        let details = '';
+        if (size) details += ` Tamanho: ${size}`;
+        if (gender) details += ` (${gender})`;
+
+        if (qty > 0) {
+          hasItems = true;
+          message += `- ${productName}${details}: ${qty}%0A`;
+        }
+      });
+
+      message += `%0ATotal: R$ ${totalSpan.textContent}`;
+
+      const phoneNumber = "55SEUNUMEROAQUI"; // Troque pelo seu número com DDI e DDD, ex: 5591999999999
+      return hasItems ? `https://wa.me/${phoneNumber}?text=${message}` : "#";
+    }
+
+    inputs.forEach(input => {
+      input.addEventListener('input', () => {
+        updateTotal();
+      });
+    });
+
+    finalizarBtn.addEventListener('click', () => {
+      const link = generateWhatsAppLink();
+      finalizarBtn.href = link;
+    });
+
+    updateTotal();
+  </script>
+</body>
+</html>
